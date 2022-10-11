@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 namespace Library.API.Controllers
 {
+    [Route("api/authors")]
     public class AurhorsController: Controller
     {
         private ILibraryRepository _libraryRepository ; 
