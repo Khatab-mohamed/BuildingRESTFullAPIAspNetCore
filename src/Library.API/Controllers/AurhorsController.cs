@@ -1,5 +1,9 @@
-﻿using Library.API.Services;
+﻿using Library.API.DTOs;
+using Library.API.Helpers;
+using Library.API.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+
 namespace Library.API.Controllers
 {
     [Route("api/authors")]
@@ -10,11 +14,24 @@ namespace Library.API.Controllers
         {
             _libraryRepository = libraryRepository;
         }
-
+        [HttpGet()]
         public IActionResult GetAuthors()
         {
             var authorsFromRepo = _libraryRepository.GetAuthors();
-            return new JsonResult(authorsFromRepo);
+            //Manual Mapping
+            var authors = new List<AuthorDto>();
+            foreach (var author in authorsFromRepo)
+            {
+                authors.Add(new AuthorDto()
+                {
+                    Id = author.Id,
+                    Name = $"{author.FirstName} {author.LastName}",
+                    Age = author.DateOfBirth.GetCurrentAge(),
+                    Genre = author.Genre
+                });
+
+            }
+            return new JsonResult(authors );
         }
     }
 }
