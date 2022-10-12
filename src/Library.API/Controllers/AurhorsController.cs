@@ -3,6 +3,7 @@ using Library.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using AutoMapper;
+using System;
 
 namespace Library.API.Controllers
 {
@@ -21,6 +22,13 @@ namespace Library.API.Controllers
             //Usig AutoMapper
             var authors = Mapper.Map<IEnumerable<AuthorDto>>(authorsFromRepo);
             return new JsonResult(authors );
+        }
+        [HttpGet("{id}")]
+        public IActionResult GetAuthor(Guid id)
+        {
+            var authorFromRepo = _libraryRepository.GetAuthor(id);
+            var author = Mapper.Map<AuthorDto>(authorFromRepo);
+            return new JsonResult(author);
         }
     }
 }
