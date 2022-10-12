@@ -1,8 +1,8 @@
 ﻿using Library.API.DTOs;
-using Library.API.Helpers;
 using Library.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using AutoMapper;
 
 namespace Library.API.Controllers
 {
@@ -18,19 +18,8 @@ namespace Library.API.Controllers
         public IActionResult GetAuthors()
         {
             var authorsFromRepo = _libraryRepository.GetAuthors();
-            //Manual Mapping
-            var authors = new List<AuthorDto>();
-            foreach (var author in authorsFromRepo)
-            {
-                authors.Add(new AuthorDto()
-                {
-                    Id = author.Id,
-                    Name = $"{author.FirstName} {author.LastName}",
-                    Age = author.DateOfBirth.GetCurrentAge(),
-                    Genre = author.Genre
-                });
-
-            }
+            //Usig AutoMapper
+            var authors = Mapper.Map<IEnumerable<AuthorDto>>(authorsFromRepo);
             return new JsonResult(authors );
         }
     }
