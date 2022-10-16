@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Library.API.DTOs;
 using Library.API.Helpers;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 
 namespace Library.API
 {
@@ -47,7 +48,14 @@ namespace Library.API
             }
             else
             {
-                app.UseExceptionHandler();
+                app.UseExceptionHandler(appBuilder =>
+                {
+                    appBuilder.Run(async context =>
+                    {
+                        context.Response.StatusCode = 500;
+                        await context.Response.WriteAsync("An unexpected fault happened, Try again later.");
+                    });
+                });
             }
 
             Mapper.Initialize(cfg => cfg.CreateMap<Author, AuthorDto>()
