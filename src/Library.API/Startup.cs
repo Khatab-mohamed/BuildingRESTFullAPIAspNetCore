@@ -69,7 +69,7 @@ namespace Library.API
                  .ForMember(dest => dest.Age, opt => opt.MapFrom(src =>
                   src.DateOfBirth.GetCurrentAge()));
                 cfg.CreateMap<Book, BookDto>();
-
+                cfg.CreateMap<AuthorForCreationDto, Author>();
                 });
 
             libraryContext.EnsureSeedDataForContext();
