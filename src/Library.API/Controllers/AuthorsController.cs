@@ -35,6 +35,7 @@ namespace Library.API.Controllers
             var author = Mapper.Map<AuthorDto>(authorFromRepo);
             return Ok(author);
         }
+
         [HttpPost]
         public IActionResult CreateAuthor([FromBody]AuthorForCreationDto author)
         {
